@@ -23,7 +23,7 @@
           {
             "group": "API Reference",
             "icon": "server",
-            "asyncapi": "https://sawa-app-dev.up.railway.app/docs.json"
+            "openapi": "https://sawa-app-dev.up.railway.app/docs.json"
           }
         ]
       },
