@@ -12,17 +12,20 @@
 		"languages": [
 			{
         "language": "en",
-        "tabs": [
+        "anchors": [
           {
-            "tab": "Getting Started",
+            "anchor": "Getting Started",
             "pages": [
               "index",
               "quickstart"
             ]
           },
           {
-            "tab": "API Reference",
-            "openapi": "https://youssefrabei.mintlify.io/openapidocsjson"
+            "anchor": "API Reference"
+          },
+          {
+            "anchor": "Untitled Tab",
+            "openapi": "https://youssefrabei.mintlify.io/openAPI.json"
           }
         ]
 			},
