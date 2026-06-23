@@ -21,11 +21,8 @@
             ]
           },
           {
-            "anchor": "API Reference"
-          },
-          {
-            "anchor": "Untitled Tab",
-            "openapi": "https://youssefrabei.mintlify.io/openAPI.json"
+            "anchor": "API Reference",
+            "openapi": "openapi.json"
           }
         ]
 			},
