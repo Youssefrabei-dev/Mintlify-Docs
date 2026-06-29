@@ -1,0 +1,38 @@
+---
+title: "Deployment topology"
+description: "How local development, hosted backend, generated docs, storage, database, Redis, and contract consumers fit together."
+keywords: ["deployment", "topology", "infrastructure", "docs"]
+---
+
+Sawa has three important surfaces: the backend API, generated API documentation, and contract consumers such as mobile or CI.
+
+```mermaid
+sequenceDiagram
+  participant Dev as Developer machine
+  participant API as SawaApp API host
+  participant DB as PostgreSQL
+  participant Redis as Redis
+  participant Storage as S3 compatible storage
+  participant Docs as MintlifyDocs
+  participant Mobile as Mobile or CI
+
+  Dev->>API: Deploy backend change
+  API->>DB: Run against Drizzle-managed schema
+  API->>Redis: Use Redis-backed infrastructure
+  API->>Storage: Store and serve media assets
+  Dev->>API: GET /docs.json
+  Dev->>Docs: Copy generated OpenAPI to openAPI.json
+  Mobile->>API: GET /contract/openapi with X-Sawa-Contract-Key
+  API-->>Mobile: Contract envelope with version, hash, and OpenAPI
+```
+
+## Operational surfaces
+
+- Local development runs `npm run dev` and reads local `.env`.
+- The backend exposes `/health`, `/docs`, `/docs.json`, `/api/auth/*`, app routes, `/contract/*`, and `/liam/*`.
+- Mintlify reads a copied `openAPI.json` for generated API reference.
+- Mobile and CI read `/contract/openapi` with `X-Sawa-Contract-Key`.
+
+<Warning>
+  Keep docs publishing and API deployment separate. Updating docs does not deploy backend behavior; updating backend routes requires regenerating OpenAPI for docs to reflect the new contract.
+</Warning>

@@ -1,0 +1,45 @@
+---
+title: "Update the database schema"
+description: "Change Drizzle schema, generate migrations, and keep DTOs and docs aligned."
+keywords: ["database schema", "Drizzle", "migrations"]
+---
+
+Use this guide when adding a table, column, relation, enum-like lookup, or constraint.
+
+<Steps>
+  <Step title="Update schema files">
+    Change the relevant file under `api/db/schema`. Keep table definitions, relations, and inferred types close to the table they describe.
+  </Step>
+  <Step title="Update dependent runtime code">
+    Update models first, then controllers. Runtime code should consume schema changes through model functions where possible.
+  </Step>
+  <Step title="Generate a migration">
+    ```bash
+    npm run db:generate
+    ```
+
+    Review the generated SQL before applying it.
+  </Step>
+  <Step title="Apply the migration locally">
+    ```bash
+    npm run db:migrate
+    ```
+  </Step>
+  <Step title="Update public DTOs if needed">
+    If the database change affects client-visible data, update `api/docs/dtos` and route docs.
+  </Step>
+  <Step title="Rebuild diagrams and OpenAPI">
+    Run Liam and OpenAPI exports when schema changes affect docs:
+
+    ```bash
+    npm run liam:build
+    npm run docs:export:mintlify
+    ```
+  </Step>
+</Steps>
+
+## Common mistakes
+
+- Treating schema changes as complete before generating and reviewing migrations.
+- Exposing every database column in DTOs by default.
+- Forgetting to update seed data after adding required fields.

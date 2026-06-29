@@ -1,0 +1,33 @@
+---
+title: "Run migrations"
+description: "Generate, review, and apply Drizzle migrations for SawaApp."
+keywords: ["migrations", "Drizzle", "database"]
+---
+
+Use migrations when the database schema changes.
+
+<Steps>
+  <Step title="Change schema files">
+    Update `api/db/schema` first.
+  </Step>
+  <Step title="Generate SQL">
+    ```bash
+    npm run db:generate
+    ```
+  </Step>
+  <Step title="Review the migration">
+    Check the generated SQL for destructive operations, incorrect defaults, or missing backfills.
+  </Step>
+  <Step title="Apply locally">
+    ```bash
+    npm run db:migrate
+    ```
+  </Step>
+  <Step title="Verify app behavior">
+    Start the API, hit relevant endpoints, and confirm seed data or tests still work.
+  </Step>
+</Steps>
+
+<Danger>
+  Review generated migration SQL before applying it to shared or production databases.
+</Danger>

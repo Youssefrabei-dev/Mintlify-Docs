@@ -1,0 +1,27 @@
+---
+title: "Project map"
+description: "Where backend developers should look in SawaApp and MintlifyDocs."
+keywords: ["project map", "SawaApp", "MintlifyDocs"]
+---
+
+## Repositories
+
+- `SawaApp` is the backend source of truth.
+- `MintlifyDocs` is the canonical docs site.
+
+## Backend paths
+
+| Path | Purpose |
+| --- | --- |
+| `api/server.ts` | Express app bootstrap, middleware order, route mounting, docs endpoints. |
+| `api/routes` | Runtime route definitions. |
+| `api/controllers` | Request handlers and orchestration. |
+| `api/models` | Database-facing domain operations. |
+| `api/db/schema` | Drizzle schema source of truth. |
+| `api/docs` | Zod/OpenAPI route docs and DTOs. |
+| `api/contract` | Mobile and CI contract envelope endpoints. |
+| `docs/auth/better-auth-integration.md` | Current Better Auth architecture notes. |
+
+## Docs paths
+
+Write new pages under `MintlifyDocs/en`. Keep internal links root-relative and omit file extensions.

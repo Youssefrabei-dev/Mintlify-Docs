@@ -1,0 +1,28 @@
+---
+title: "Sawa backend documentation"
+description: "Canonical backend documentation for the Sawa API, architecture, local setup, and generated OpenAPI reference."
+keywords: ["Sawa", "backend", "API", "OpenAPI", "Better Auth"]
+---
+
+Sawa is a social activity planning platform. These docs are the backend source of truth for developers working on the Express API, database schema, Better Auth integration, generated OpenAPI reference, and mobile contract pipeline.
+
+The current focus is English-first and backend-first: setup, architecture, file ownership, API contracts, and everyday backend workflows.
+
+<Columns cols={2}>
+  <Card title="Start here" icon="rocket" href="/en/start-here/overview">
+    Learn what is documented now, what is deferred, and how the docs are organized.
+  </Card>
+  <Card title="Run the backend locally" icon="terminal" href="/en/tutorials/run-backend-locally">
+    Clone, configure, migrate, start the API, and verify `/health`, `/docs`, and `/docs.json`.
+  </Card>
+  <Card title="Authentication" icon="shield-check" href="/en/concepts/architecture/authentication">
+    Understand Better Auth sign-in, bearer sessions, protected routes, and Liam's separate admin auth.
+  </Card>
+  <Card title="API Reference" icon="square-terminal" href="/api-reference">
+    Browse endpoint reference generated from Sawa's OpenAPI document.
+  </Card>
+</Columns>
+
+<Tip>
+  Start with the project map and backend layering pages if you are deciding where a code change belongs.
+</Tip>

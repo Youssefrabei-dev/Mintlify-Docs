@@ -1,0 +1,30 @@
+---
+title: "Seed local data"
+description: "Run SawaApp seed scripts safely during local development."
+keywords: ["seed", "local data", "development"]
+---
+
+Use seed data when you need realistic local records for manual testing.
+
+<Steps>
+  <Step title="Confirm your database target">
+    Check `DATABASE_URL` before seeding. Do not seed shared databases by accident.
+  </Step>
+  <Step title="Run the seed script">
+    ```bash
+    npm run db:seed
+    ```
+  </Step>
+  <Step title="Bypass confirmation only for throwaway data">
+    ```bash
+    npm run db:seed:yes
+    ```
+  </Step>
+  <Step title="Verify through the API">
+    Start the backend and call the relevant endpoints, such as `/places` or `/events`, with a valid bearer token when the route is protected.
+  </Step>
+</Steps>
+
+<Warning>
+  Treat seed scripts as local-development tooling unless the team explicitly approves another environment.
+</Warning>

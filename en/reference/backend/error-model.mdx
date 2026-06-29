@@ -1,0 +1,33 @@
+---
+title: "Error model"
+description: "How SawaApp creates, throws, and serializes backend errors."
+keywords: ["errors", "CustomError", "errorHandler", "API errors"]
+---
+
+Sawa centralizes error responses through utility helpers and the final Express error middleware.
+
+## Main pieces
+
+| Piece | Role |
+| --- | --- |
+| `CustomError` | Application error object with status, code, message, details, and suggestion. |
+| `createCommonError` | Helper for common error shapes. |
+| `StatusCodes` | HTTP status code constants. |
+| `StatusPhrases` | Shared error phrase constants. |
+| `notFound` | Handles unmatched routes. |
+| `errorHandler` | Converts thrown or forwarded errors into JSON responses. |
+
+## Controller pattern
+
+Controllers should validate inputs early, throw structured errors for expected failures, and let `errorHandler` serialize failures consistently.
+
+```typescript
+throw createCommonError(StatusPhrases.UNAUTHORIZED, {
+  path: "exampleController",
+  originalUrl: req.originalUrl,
+});
+```
+
+## Documentation rule
+
+Endpoint-specific errors belong in generated OpenAPI route docs. General behavior and troubleshooting belong in this reference page.

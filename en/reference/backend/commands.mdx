@@ -1,0 +1,27 @@
+---
+title: "Backend commands"
+description: "Common SawaApp npm scripts for local development, database work, OpenAPI, and Liam ERD."
+keywords: ["commands", "npm scripts", "SawaApp"]
+---
+
+These commands come from `SawaApp/package.json`.
+
+| Command | Use |
+| --- | --- |
+| `npm run dev` | Build Liam ERD output, then start the API with `nodemon` and `tsx`. |
+| `npm run dev:full` | Run the API and Liam schema watcher together. |
+| `npm run build` | Build Liam ERD output and compile TypeScript. |
+| `npm start` | Run the compiled server from `build/api/server.js`. |
+| `npm run db:generate` | Generate Drizzle migrations. |
+| `npm run db:migrate` | Apply migrations with `api/db/migrate.ts`. |
+| `npm run db:push` | Generate and apply migrations. |
+| `npm run db:seed` | Seed local data. |
+| `npm run db:seed:yes` | Seed with confirmation bypassed. |
+| `npm run studio` | Open Drizzle Studio. |
+| `npm run liam:build` | Build Liam ERD static output. |
+| `npm run liam` | Build and serve Liam ERD output. |
+| `npm run auth:schema:generate` | Generate Better Auth schema into `_cli-generated.ts`. |
+
+<Note>
+  A repeatable `docs:export` command for refreshing Mintlify's `openAPI.json` is still a migration follow-up.
+</Note>

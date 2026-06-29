@@ -1,0 +1,28 @@
+---
+title: "Mark a route as mobile-hidden"
+description: "Keep backend-only endpoints out of the mobile API contract while preserving backend OpenAPI docs."
+keywords: ["mobile contract", "backend-only", "OpenAPI", "x-hidden"]
+---
+
+Use this guide when an endpoint is useful for backend docs or internal tooling but should not be available to mobile contract generation.
+
+<Steps>
+  <Step title="Decide whether the route is truly backend-only">
+    Backend-only routes include internal tools, diagnostics, admin helpers, or endpoints mobile should not call.
+  </Step>
+  <Step title="Use the backend-only registration helper">
+    In `api/docs/<domain>.ts`, register the route with `registerBackendOnlyPath` instead of the default path registration helper.
+  </Step>
+  <Step title="Regenerate OpenAPI">
+    ```bash
+    npm run docs:export:mintlify
+    ```
+  </Step>
+  <Step title="Verify both surfaces">
+    Confirm backend docs still show the endpoint when intended, and `/contract/openapi` excludes it from the mobile contract.
+  </Step>
+</Steps>
+
+<Warning>
+  Do not hide a route from mobile just to avoid fixing types. If mobile calls it, the contract should describe it.
+</Warning>

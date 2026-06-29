@@ -1,0 +1,35 @@
+---
+title: "Add an environment variable"
+description: "Add backend configuration consistently across .env.template, config.ts, runtime code, and docs."
+keywords: ["environment variable", "config", "dotenv"]
+---
+
+Use this guide when backend behavior needs a new configurable value.
+
+<Steps>
+  <Step title="Add the variable to the template">
+    Update `SawaApp/.env.template` with the variable name and a safe placeholder value.
+  </Step>
+  <Step title="Read it in config.ts">
+    Add the value to `api/config.ts`. Choose whether it is required, has a default, or should only be required in production.
+  </Step>
+  <Step title="Validate startup if needed">
+    For security-sensitive variables, add a fail-fast assertion near the owning feature. Auth uses this pattern through `api/auth/assert-env.ts`.
+  </Step>
+  <Step title="Use the config object">
+    Runtime code should import `config` instead of reading `process.env` directly in many places.
+  </Step>
+  <Step title="Update docs">
+    Update `/en/reference/backend/environment` with purpose, default, and any environment-specific notes.
+  </Step>
+</Steps>
+
+## Validation
+
+- Start with the variable missing and confirm the behavior is intentional.
+- Start with the variable present and confirm the feature works.
+- Check that no secret value was committed.
+
+<Warning>
+  Storage config currently needs cleanup: the template uses `DIGITAL_OCEAN_*`, while `config.ts` reads `MINIO_*`. Do not add more storage names until that mismatch is resolved.
+</Warning>

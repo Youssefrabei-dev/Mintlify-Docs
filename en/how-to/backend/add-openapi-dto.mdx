@@ -1,0 +1,46 @@
+---
+title: "Add OpenAPI DTOs"
+description: "Document client-visible request and response shapes for generated OpenAPI and mobile contract consumers."
+keywords: ["OpenAPI", "DTO", "registerPath", "contract"]
+---
+
+Use this guide when an endpoint's request body, response body, params, or errors change.
+
+## Goal
+
+Keep generated API reference and contract consumers aligned with runtime behavior.
+
+<Steps>
+  <Step title="Define the public shape">
+    Add or update `api/docs/dtos/<domain>.ts`.
+
+    Reuse Drizzle-derived schemas when useful, but omit private fields such as server-owned IDs, deleted flags, password fields, or internal metadata.
+  </Step>
+  <Step title="Register reusable schemas">
+    Give schemas stable OpenAPI names with `.openapi("Name")` and export them for route docs.
+  </Step>
+  <Step title="Update route documentation">
+    Add or update `api/docs/<domain>.ts` with `docsRegistry.registerPath`.
+
+    Include method, path, tags, params, request body, responses, and security expectations.
+  </Step>
+  <Step title="Hide backend-only routes when needed">
+    Use `registerBackendOnlyPath` for endpoints that should appear in backend docs but not in the mobile contract.
+  </Step>
+  <Step title="Regenerate OpenAPI">
+    ```bash
+    npm run docs:export:mintlify
+    ```
+  </Step>
+</Steps>
+
+## Validation
+
+- Inspect `MintlifyDocs/openAPI.json`.
+- Confirm the path exists under `paths`.
+- Confirm request and response schemas appear under `components.schemas`.
+- Confirm mobile-hidden routes do not appear in `/contract/openapi`.
+
+<Warning>
+  A DTO alone does not create a callable OpenAPI path. You need route registration too.
+</Warning>

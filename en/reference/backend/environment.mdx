@@ -1,0 +1,32 @@
+---
+title: "Environment variables"
+description: "Backend environment variables read by SawaApp and the known storage naming mismatch."
+keywords: ["environment", "env", "config", "SawaApp"]
+---
+
+Use `SawaApp/.env.template` as the starting point and verify it against `SawaApp/api/config.ts`.
+
+| Variable | Purpose |
+| --- | --- |
+| `PORT` | API port. Defaults to `8080`. |
+| `NODE_ENV` | Runtime mode. Defaults to `development`. |
+| `BETTER_AUTH_SECRET` | Better Auth secret. Must be at least 32 characters. |
+| `BETTER_AUTH_URL` | Public base URL used by Better Auth. |
+| `REDIS_URL` | Redis connection string. |
+| `DATABASE_URL` | Primary PostgreSQL connection string. |
+| `MIN_AGE` | Minimum allowed user age. |
+| `MAX_AGE` | Maximum allowed user age. |
+| `RESEND_API_KEY` | Resend API key. |
+| `WEBSITE_URL` | Public website URL used by backend flows. |
+| `LIAM_SESSION_SECRET` | Session secret for Liam ERD auth. |
+| `LIAM_PASSWORD` | Password for Liam ERD. |
+| `CONTRACT_API_KEY` | Shared key for `/contract/*`. |
+| `API_CONTRACT_VERSION` | Version exposed by the contract API. |
+
+## Values read by config but missing from template
+
+`api/config.ts` also reads staging and backup database URLs, plus storage variables such as `MINIO_ENDPOINT_DEV`, `MINIO_BUCKET_NAME_DEV`, `MINIO_REGION_DEV`, `MINIO_ACCESS_KEY_ID_DEV`, and `MINIO_ACCESS_KEY_SECRET_DEV`.
+
+<Warning>
+  The template currently lists `DIGITAL_OCEAN_*` storage variables, while `api/config.ts` reads `MINIO_*`. Update one side before treating storage setup docs as complete.
+</Warning>

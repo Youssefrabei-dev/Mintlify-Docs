@@ -1,0 +1,30 @@
+---
+title: "Project layout"
+description: "Backend folder responsibilities in SawaApp."
+keywords: ["project layout", "backend folders", "SawaApp"]
+---
+
+## `SawaApp`
+
+| Path | Responsibility |
+| --- | --- |
+| `api/server.ts` | Express app, middleware order, route mounting, docs endpoints, and server startup. |
+| `api/config.ts` | Environment-derived runtime configuration. |
+| `api/auth` | Better Auth configuration, runtime singleton, and environment checks. |
+| `api/routes` | Express routers by domain. |
+| `api/controllers` | Request handlers and response shaping. |
+| `api/models` | Domain data access and database operations. |
+| `api/middlewares` | Auth, public-route gating, contract auth, Liam auth, errors, and 404 handling. |
+| `api/db/schema` | Drizzle table definitions. |
+| `api/db/migrations` | Migration SQL files. |
+| `api/docs` | OpenAPI DTOs and route registrations. |
+| `api/contract` | Mobile and CI contract envelope routes. |
+| `liam-dist` | Generated Liam ERD static output. |
+
+## Route change checklist
+
+- Add or update the runtime route.
+- Add or update controller and model code.
+- Update schema and migrations if persistence changes.
+- Update `api/docs/dtos` and route registration.
+- Refresh `MintlifyDocs/openAPI.json`.

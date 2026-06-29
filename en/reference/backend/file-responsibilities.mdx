@@ -1,0 +1,51 @@
+---
+title: "File responsibilities"
+description: "A lookup reference for what each backend file type owns in SawaApp."
+keywords: ["file responsibilities", "routes", "controllers", "models", "DTOs"]
+---
+
+Use this page when adding code and deciding where a change belongs.
+
+## Runtime files
+
+<AccordionGroup>
+  <Accordion title="api/routes/*.routes.ts" defaultOpen={true}>
+    Routes define URL structure. Put `router.get`, `router.post`, nested routers, and route-specific middleware here. Keep route files thin; they should mostly point to controllers.
+  </Accordion>
+  <Accordion title="api/controllers/*.controller.ts">
+    Controllers translate HTTP requests into domain work. Put request parsing, validation decisions, calls to models, and response status/body creation here.
+  </Accordion>
+  <Accordion title="api/models/*.model.ts">
+    Models own reusable persistence operations. Put Drizzle queries, inserts, updates, deletes, and domain-level database lookups here. Do not import Express request or response types.
+  </Accordion>
+  <Accordion title="api/middlewares/*.middleware.ts">
+    Middleware owns cross-cutting request behavior such as authentication, public route checks, media upload parsing, contract auth, Liam auth, 404s, and error handling.
+  </Accordion>
+  <Accordion title="api/db/schema/*.ts">
+    Schema files define database tables, relations, and inferred Drizzle/Zod types. Use migrations for database shape changes.
+  </Accordion>
+</AccordionGroup>
+
+## Documentation and contract files
+
+<AccordionGroup>
+  <Accordion title="api/docs/dtos/*.ts" defaultOpen={true}>
+    DTO files define public API shapes. They can derive from Drizzle schemas but should omit private or server-owned fields.
+  </Accordion>
+  <Accordion title="api/docs/*.ts">
+    Route documentation files register OpenAPI paths. A route is not visible to generated API consumers unless it is registered here.
+  </Accordion>
+  <Accordion title="api/docs/registry.ts">
+    The registry imports route docs, defines global OpenAPI metadata, registers bearer auth, and generates the final document.
+  </Accordion>
+  <Accordion title="api/contract">
+    Contract files wrap OpenAPI with version and hash metadata for mobile and CI. These routes require `X-Sawa-Contract-Key`.
+  </Accordion>
+</AccordionGroup>
+
+## Rule of thumb
+
+- If it changes the URL, method, or middleware stack, update a route.
+- If it changes how a request becomes a response, update a controller.
+- If it changes persistence, update a model and possibly schema/migrations.
+- If it changes client-visible shape, update DTOs and OpenAPI route docs.

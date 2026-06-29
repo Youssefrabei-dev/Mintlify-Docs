@@ -1,0 +1,42 @@
+---
+title: "Make your first authenticated request"
+description: "Sign up with Better Auth, use the bearer session token, and call a protected Sawa route."
+keywords: ["Better Auth", "authenticated request", "bearer token", "Sawa API"]
+---
+
+Sawa uses Better Auth for sign-up, sign-in, sign-out, and session management.
+
+## Flow
+
+1. Call `POST /api/auth/sign-up/email` or `POST /api/auth/sign-in/email`.
+2. Read the Better Auth session token from the response or auth header used by your client.
+3. Send `Authorization: Bearer <sessionToken>` to protected app routes such as `/places`.
+4. Sign out with `POST /api/auth/sign-out` when needed.
+
+## Example
+
+```bash
+curl -X POST http://localhost:8080/api/auth/sign-in/email \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "developer@example.com",
+    "password": "Password1."
+  }'
+```
+
+Then call a protected route:
+
+```bash
+curl http://localhost:8080/places \
+  -H "Authorization: Bearer <sessionToken>"
+```
+
+<Note>
+  Better Auth is mounted before `express.json()` in `api/server.ts`. Moving it after JSON parsing can cause auth requests to hang.
+</Note>
+
+## Troubleshooting
+
+- `401`: the bearer token is missing, expired, or not a Better Auth session token.
+- Pending auth request: check that `/api/auth/*` is mounted before `express.json()`.
+- CORS issue: verify the client origin is present in `config.clientUrls`.

@@ -1,0 +1,30 @@
+---
+title: "Inspect Liam ERD"
+description: "Build and open the Liam ERD view from Sawa's Drizzle schema."
+keywords: ["Liam", "ERD", "database diagram", "Drizzle"]
+---
+
+Use Liam when you need a table-level ERD generated from the current Drizzle schema.
+
+<Steps>
+  <Step title="Build the ERD">
+    ```bash
+    npm run liam:build
+    ```
+  </Step>
+  <Step title="Serve the ERD locally">
+    ```bash
+    npm run liam
+    ```
+  </Step>
+  <Step title="Open the Liam route">
+    In the API server, Liam is mounted under `/liam`. It uses separate `express-session` auth with `LIAM_PASSWORD`.
+  </Step>
+  <Step title="Use it for schema review">
+    Check relationships after schema changes, especially events, places, companionships, and Better Auth identity tables.
+  </Step>
+</Steps>
+
+<Note>
+  Liam auth is separate from Better Auth. It is for internal ERD access, not user sign-in.
+</Note>

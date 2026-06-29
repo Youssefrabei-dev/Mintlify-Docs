@@ -1,0 +1,27 @@
+---
+title: "Documentation overview"
+description: "How to use the Sawa backend docs and what is included in the first migration phase."
+keywords: ["Sawa docs", "documentation overview", "backend"]
+---
+
+These docs make `MintlifyDocs` the canonical backend documentation site for Sawa. The runtime source of truth is `SawaApp`.
+
+## What is covered now
+
+- Backend setup, commands, environment variables, and project layout.
+- Express request flow, Better Auth, route protection, generated OpenAPI, and mobile contract publishing.
+- Generated API reference from `openAPI.json`.
+
+## What is deferred
+
+Arabic translations, detailed mobile app docs, and UX docs are reserved for later phases. Their homes exist in navigation so the information architecture can grow without being rebuilt.
+
+## Source of truth
+
+Use these files before changing docs:
+
+- `SawaApp/api/server.ts` for middleware order and route mounting.
+- `SawaApp/api/config.ts` and `SawaApp/.env.template` for environment documentation.
+- `SawaApp/docs/auth/better-auth-integration.md` for current auth behavior.
+- `SawaApp/api/docs` and `SawaApp/api/docs/registry.ts` for OpenAPI generation.
+- `SawaApp/api/contract` for mobile and CI contract behavior.

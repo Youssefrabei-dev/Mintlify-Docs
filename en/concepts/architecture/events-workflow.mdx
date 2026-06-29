@@ -1,0 +1,34 @@
+---
+title: "Events workflow"
+description: "How event planning moves from creation to attendees, candidate steps, voting, comments, and final itinerary."
+keywords: ["events", "workflow", "state diagram", "Sawa"]
+---
+
+Events let users plan a shared activity itinerary. The data model supports attendees, candidate steps, voting, comments, dropper tracking, and final selected steps.
+
+```mermaid
+stateDiagram-v2
+  [*] --> Draft
+  Draft --> InvitingAttendees: create event
+  InvitingAttendees --> CollectingIdeas: attendees join
+  CollectingIdeas --> Voting: event steps proposed
+  Voting --> Discussing: comments and votes change
+  Discussing --> Voting: revise options
+  Voting --> Finalized: choose final steps
+  Finalized --> Completed: event happens
+  Finalized --> Cancelled: cancel event
+```
+
+## Tables involved
+
+- `events`: the event shell and owner-facing metadata.
+- `eventAttendees`: users invited to or participating in the event.
+- `eventSteps`: candidate or selected itinerary steps.
+- `eventStepVotes`: votes on event steps.
+- `eventStepComments`: discussion around options.
+- `eventStepDroppers`: users who drop from a step.
+- `eventStepUsers`: users connected to a step.
+
+## Why this matters
+
+Leadership can read events as the core collaboration workflow. Developers should read events as a multi-table domain: changing one endpoint often touches event status, attendee permissions, and step-level side effects.

@@ -1,0 +1,45 @@
+---
+title: "Debug an authenticated route"
+description: "Diagnose protected route failures in Sawa's Better Auth bearer-session flow."
+keywords: ["debug auth", "Better Auth", "401", "protected route"]
+---
+
+Use this guide when a protected route returns `401`, hangs, or behaves differently from `/health` and `/docs.json`.
+
+<Steps>
+  <Step title="Verify the server is healthy">
+    ```bash
+    curl http://localhost:8080/health
+    curl http://localhost:8080/docs.json
+    ```
+  </Step>
+  <Step title="Confirm the route is protected">
+    Check `authenticateUnlessPublic`. Public paths are `/health`, `/docs.json`, `/docs`, `/docs-new`, `/api/auth/*`, `/test/*`, `/pets/*`, and `/liam*`.
+  </Step>
+  <Step title="Get a Better Auth session token">
+    Sign in through `/api/auth/sign-in/email` or use the mobile/web client auth flow. Use the Better Auth session token as a bearer token.
+  </Step>
+  <Step title="Call the protected route">
+    ```bash
+    curl http://localhost:8080/places \
+      -H "Authorization: Bearer <sessionToken>"
+    ```
+  </Step>
+  <Step title="Check middleware order">
+    In `api/server.ts`, Better Auth must mount before `express.json()`. CORS must run before auth. `authenticateUnlessPublic` must run before protected app routes.
+  </Step>
+  <Step title="Check user loading">
+    `isAuthenticated` should call Better Auth, then load the Sawa `users` row onto `req.user`.
+  </Step>
+</Steps>
+
+## Quick diagnosis
+
+| Symptom | Likely cause |
+| --- | --- |
+| `/health` fails | Server or environment issue, not auth. |
+| `/api/auth/*` hangs | Better Auth may be mounted after JSON parsing. |
+| Protected route returns `401` | Missing, expired, or wrong bearer token. |
+| Browser request blocked | CORS origin missing from `config.clientUrls`. |
+| Controller sees no user | Session resolved but Sawa user load failed. |
+

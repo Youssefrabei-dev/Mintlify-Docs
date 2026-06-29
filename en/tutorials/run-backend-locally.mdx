@@ -1,0 +1,52 @@
+---
+title: "Run the backend locally"
+description: "Start SawaApp locally and verify health, Scalar docs, and generated OpenAPI."
+keywords: ["run backend", "local development", "SawaApp", "OpenAPI"]
+---
+
+This tutorial gets the backend running and proves the docs endpoints work.
+
+<Steps>
+  <Step title="Install dependencies">
+    From `SawaApp`:
+
+    ```bash
+    npm install
+    ```
+  </Step>
+  <Step title="Create your environment file">
+    Copy the template and fill the required values:
+
+    ```bash
+    cp .env.template .env
+    ```
+
+    At minimum, configure `DATABASE_URL`, `REDIS_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `LIAM_SESSION_SECRET`, and `LIAM_PASSWORD`.
+  </Step>
+  <Step title="Run migrations">
+    Apply the Drizzle migrations:
+
+    ```bash
+    npm run db:migrate
+    ```
+  </Step>
+  <Step title="Start the API">
+    ```bash
+    npm run dev
+    ```
+
+    The server starts on `http://localhost:8080` by default. If the port is already taken, `api/server.ts` tries the next port.
+  </Step>
+  <Step title="Verify the docs endpoints">
+    ```bash
+    curl http://localhost:8080/health
+    curl http://localhost:8080/docs.json
+    ```
+
+    You can also open `http://localhost:8080/docs` for the Scalar UI.
+  </Step>
+</Steps>
+
+## Success check
+
+`/health` returns `{ "message": "OK" }`, `/docs.json` returns an OpenAPI document titled `Sawa App API`, and `/docs` renders the interactive reference.

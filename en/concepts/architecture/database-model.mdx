@@ -1,0 +1,38 @@
+---
+title: "Database model"
+description: "A leadership-friendly view of Sawa's main data domains and how they relate."
+keywords: ["database", "data model", "ERD", "Drizzle"]
+---
+
+Sawa's database model is organized around users, places, social activity planning, and lookup taxonomy.
+
+```mermaid
+erDiagram
+  USERS ||--o{ PLACES : creates
+  USERS ||--o{ EVENTS : creates
+  USERS ||--o{ COMPANIONSHIPS : participates
+  PLACES ||--o{ PLACES_MEDIA : has
+  PLACES ||--o{ PLACES_REVIEWS : receives
+  PLACES ||--o{ PLACES_REACTIONS : receives
+  PLACES }o--|| CATEGORIES : belongs_to
+  PLACES }o--o{ ACTIVITIES : supports
+  EVENTS ||--o{ EVENT_ATTENDEES : has
+  EVENTS ||--o{ EVENT_STEPS : plans
+  EVENT_STEPS ||--o{ EVENT_STEP_VOTES : receives
+  EVENT_STEPS ||--o{ EVENT_STEP_COMMENTS : receives
+  EVENT_STEPS ||--o{ EVENT_STEP_DROPPERS : tracks
+  USERS ||--o{ SESSION : authenticates_with
+  USERS ||--o{ ACCOUNT : owns
+```
+
+## Domain groups
+
+- Identity: `users` plus Better Auth `session`, `account`, and `verification` tables.
+- Places: places, media, reviews, reactions, categories, activities, and place-activity links.
+- Events: event plans, attendees, steps, votes, comments, droppers, and step users.
+- Companionships: companions, companionships, statuses, filters, and status changelog.
+- Taxonomy: categories, category types, activities, media types, genders, and reaction types.
+
+<Note>
+  Liam ERD can generate a deeper table-level view from the Drizzle schema when you need implementation detail.
+</Note>

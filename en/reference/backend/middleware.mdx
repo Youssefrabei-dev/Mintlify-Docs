@@ -1,0 +1,31 @@
+---
+title: "Middleware"
+description: "Reference for SawaApp middleware order and responsibilities."
+keywords: ["middleware", "Express", "authentication", "CORS"]
+---
+
+Middleware order is part of backend behavior.
+
+| Middleware or route surface | Responsibility | Order notes |
+| --- | --- | --- |
+| `cors` | Allows configured client origins and credentials. | Runs before auth. |
+| Better Auth handler | Owns `/api/auth/*`. | Must run before `express.json()`. |
+| `express.json()` | Parses JSON bodies for app routes. | Runs after Better Auth. |
+| `/contract` routes | Serves versioned OpenAPI contract behind API-key auth. | Mounted before session middleware. |
+| `authenticateUnlessPublic` | Allows public paths and protects app routes. | Runs before app routes. |
+| `mediaHandler` | Parses multipart uploads for routes such as places media. | Applied route-by-route. |
+| `express-session` | Supports Liam ERD auth. | Separate from Better Auth. |
+| `liamAuth` | Protects `/liam` static ERD output. | Runs on `/liam` after login route. |
+| `notFound` | Handles unmatched routes. | Near the end. |
+| `errorHandler` | Serializes application errors. | Last. |
+
+## Public paths
+
+- `/health`
+- `/docs.json`
+- `/docs`
+- `/docs-new`
+- `/api/auth/*`
+- `/test/*`
+- `/pets/*`
+- `/liam*`

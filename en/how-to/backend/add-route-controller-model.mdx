@@ -1,0 +1,52 @@
+---
+title: "Add a route, controller, and model"
+description: "Add backend runtime behavior using Sawa's route, controller, model, schema, and docs layers."
+keywords: ["add route", "controller", "model", "backend guide"]
+---
+
+Use this guide when adding a new backend capability or a new endpoint for an existing domain.
+
+## Goal
+
+Add runtime behavior in the right layer, then expose it through generated OpenAPI when it is part of the public API.
+
+<Steps>
+  <Step title="Choose the domain">
+    Start from an existing domain if possible, such as `places`, `events`, `users`, or `companionships`. Add a new domain only when the behavior does not fit an existing route/controller/model family.
+  </Step>
+  <Step title="Add the route">
+    Create or update `api/routes/<domain>.routes.ts`.
+
+    Routes should define the method, path, route middleware, nested routers, and controller function.
+  </Step>
+  <Step title="Add the controller">
+    Create or update `api/controllers/<domain>.controller.ts`.
+
+    Controllers should parse `req.params`, `req.query`, `req.body`, and uploaded files; validate inputs; call models; then return the HTTP response.
+  </Step>
+  <Step title="Add the model function">
+    Create or update `api/models/<domain>.model.ts`.
+
+    Models should own Drizzle queries and return data to controllers. Do not pass Express `Request` or `Response` objects into models.
+  </Step>
+  <Step title="Wire exports">
+    Export new functions from the relevant `index.ts` files so existing import patterns continue to work.
+  </Step>
+  <Step title="Document the public contract">
+    If the route is public API behavior, add or update DTOs in `api/docs/dtos` and route docs in `api/docs/*.ts`.
+  </Step>
+</Steps>
+
+## Validation
+
+- Run `npm run dev`.
+- Call the endpoint manually.
+- Open `/docs.json` and confirm the public endpoint appears when it should.
+- Confirm protected routes require a Better Auth bearer token.
+
+## Common mistakes
+
+- Putting database queries directly in routes.
+- Importing Express types into models.
+- Adding runtime routes without OpenAPI route docs.
+- Returning private database fields in public DTOs.

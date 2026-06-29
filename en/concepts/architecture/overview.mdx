@@ -1,0 +1,24 @@
+---
+title: "Architecture overview"
+description: "A high-level view of Sawa's backend, clients, data stores, generated API reference, and contract pipeline."
+keywords: ["architecture", "system overview", "Sawa backend"]
+---
+
+Sawa's backend is an Express API written in TypeScript. It uses Better Auth for `/api/auth/*`, Drizzle with PostgreSQL for persistence, Redis for infrastructure needs, S3-compatible storage for media, and generated OpenAPI for the API reference and mobile contract.
+
+```mermaid
+flowchart TB
+  MobileApp["SawaMobile Expo app"] -->|"REST API calls"| BackendApi["SawaApp Express API"]
+  FutureClient["Future web or admin client"] -->|"REST API calls"| BackendApi
+  BackendApi --> BetterAuth["Better Auth"]
+  BackendApi --> Postgres["PostgreSQL with Drizzle"]
+  BackendApi --> Redis["Redis"]
+  BackendApi --> Storage["S3 compatible storage"]
+  BackendApi --> OpenAPI["Generated OpenAPI"]
+  OpenAPI --> Mintlify["Mintlify API Reference"]
+  Postgres --> Liam["Liam ERD"]
+```
+
+## Current docs boundary
+
+The first migration phase documents the backend and generated API reference. Mobile and UX docs are reserved for later phases, with the backend side of the mobile contract documented now.

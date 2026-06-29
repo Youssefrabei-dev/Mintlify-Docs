@@ -1,0 +1,35 @@
+---
+title: "Publish the API contract"
+description: "Refresh generated OpenAPI for Mintlify and explain the mobile contract surface."
+keywords: ["API contract", "OpenAPI", "Mintlify", "mobile"]
+---
+
+Use this guide after changing public API routes, DTOs, auth docs, or response shapes.
+
+<Steps>
+  <Step title="Update runtime and docs code">
+    Make sure the route, controller, model, DTO, and `registerPath` changes are complete.
+  </Step>
+  <Step title="Run the backend export">
+    From `SawaApp`:
+
+    ```bash
+    npm run docs:export:mintlify
+    ```
+
+    This writes the generated OpenAPI document to `MintlifyDocs/openAPI.json`.
+  </Step>
+  <Step title="Inspect the generated file">
+    Confirm the changed endpoint appears under `paths`, and schemas appear under `components.schemas`.
+  </Step>
+  <Step title="Check the contract endpoint when needed">
+    For mobile or CI consumers, call `/contract/version` or `/contract/openapi` with `X-Sawa-Contract-Key`.
+  </Step>
+  <Step title="Update docs prose">
+    If behavior changed, update concept, how-to, and reference pages. Do not duplicate generated endpoint details in prose.
+  </Step>
+</Steps>
+
+## Success check
+
+Mintlify should read `openAPI.json`, while mobile and CI should continue to use `/contract/openapi`.

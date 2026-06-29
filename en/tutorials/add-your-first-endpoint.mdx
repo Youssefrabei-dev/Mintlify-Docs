@@ -1,0 +1,29 @@
+---
+title: "Add your first endpoint"
+description: "Follow the backend layers for adding a route, controller, model, DTO, and OpenAPI docs."
+keywords: ["add endpoint", "route", "controller", "model", "OpenAPI"]
+---
+
+This tutorial shows the shape of a backend change. Keep runtime behavior and generated docs in sync.
+
+<Steps>
+  <Step title="Add or update the runtime route">
+    Add the route in `api/routes`, then export and mount it through the existing route index and `api/server.ts` pattern.
+  </Step>
+  <Step title="Call a controller">
+    Put request handling in `api/controllers`. Keep parsing and response behavior close to the controller.
+  </Step>
+  <Step title="Use a model for database work">
+    Put Drizzle queries and domain persistence in `api/models`.
+  </Step>
+  <Step title="Update DTOs and route docs">
+    Add schemas under `api/docs/dtos` when response or request shapes change. Register the path in `api/docs/*.ts`.
+  </Step>
+  <Step title="Verify OpenAPI">
+    Start the backend and open `http://localhost:8080/docs.json`. The endpoint should appear in `paths`.
+  </Step>
+</Steps>
+
+<Warning>
+  Mobile type generation only sees endpoints that are registered in `api/docs`. A runtime route without `registerPath` is callable by HTTP but invisible to generated clients.
+</Warning>
